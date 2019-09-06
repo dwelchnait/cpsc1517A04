@@ -5,4 +5,4 @@ instructor: don welch
 
 email dwelch@nait.ca
 
-Semester Sep 2019
+Semester September thru December 2019
