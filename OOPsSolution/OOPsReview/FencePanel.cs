@@ -83,5 +83,24 @@ namespace OOPsReview
         //handling nullable numerics
         //only two possibilities: a) a numeric or b)null
         public double? Price { get; set; }
+
+        //Constructors
+        //are used to place the instance of your class in a "Known State"
+        //     when it is created
+        //if you do NOT code a constructor in your class then the system
+        //     will initialize your data members to their natural initialized state
+        //if you DO code a constructor then you are responsible for ALL 
+        //     constructors within the class
+        //a constructor DOES NOT have a return datatype (rdt).
+
+        //default constructor
+        //similar to the system constructor
+        public FencePanel()
+        {
+            //optionally you could assign your own hard-code initial value
+            Height = 6.0;
+            Width = 8.0;
+            Price = null;
+        }
     }
 }
