@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = string.Format("Razor - {0}", "Basic Controls");
+
+    //retreive the entered user values from the web controls
+    //you will access the data from the Reques.Form["control parameter name"]
+    //this data will be returned as a STRING
+    //a datatype of var is resolved at execution time.
+    //the name after var is the C# variable name
+    var enteredname = Request.Form["dataentry"];
+    var thebutton = Request.Form["theButton"];
+}
+
+@section banner{
+    <h1>Basic Controls</h1>
+}
+
+@if (IsPost)
+{
+    //if your form consists of multiple buttons
+    //the first level of your logic SHOULD be to DETERMINE WHICH
+    //   button was pressed
+    if (thebutton.Equals("bob"))
+    {
+        //any processing within the true path
+        //will happen ONLY after the user has sent back the previous page
+        if (string.IsNullOrEmpty(enteredname))
+        {
+        <div class="offset-4">
+            <p style="color:firebrick; font-size:larger">
+                You are required to enter your name.
+            </p>
+        </div>
+        }
+        else
+        {
+        <div class="offset-4">
+            <p>Well: hello there @enteredname</p>
+        </div>
+        }
+    }
+    else
+    {
+        enteredname = "";
+        <p>User cleaned control</p>
+    }
+}
+else
+{
+    //any processing within the else
+    //would be page intiailization processing
+<p>this text shows up only on the first time the page appears</p>
+}
+<form id="theform" method="post">
+    <div class="offset-3">
+        <label id="label1" for="dataentry">Enter your name:</label>&nbsp;&nbsp;
+        <input type="text" id="dataentry" name="dataentry" 
+                value="@enteredname"/>
+        <br /><br />
+        <button id="PressMe" type="submit" value="bob" name="theButton">Press Me</button>
+        &nbsp;&nbsp;
+        <input type="submit" id="ClearMe" value="Clear Me" name="theButton" /> 
+    </div>
+</form>
+
