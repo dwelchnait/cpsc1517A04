@@ -3,9 +3,9 @@
     Page.Title = string.Format("Razor - {0}", "DDL MultiRecord Query");
 
     var db = Database.Open("NWDB");
-    var sqlcommand = @"SELECT CategoryID, CategoryName 
-                        FROM Categories
-                        ORDER BY CategoryName";
+    var sqlcommand = @"SELECT CategoryID, CategoryName
+                FROM Categories
+                ORDER BY CategoryName";
     var catinfo = db.Query(sqlcommand);
 
 }
@@ -13,9 +13,44 @@
     <h1>DropdownList Selection Query</h1>
 }
 
-@if(IsPost)
+@if (IsPost)
 {
+    //obtain the selected choice
+    var choice = Request.Form["CategoryList"];
 
+    //is the choice the prompt?
+    if (choice.Equals("0"))
+    {
+        //   yes: message to user
+        <p style="color:darkslateblue">Select a choice from the list to view the category projects.</p>
+    }
+    else
+    {
+        //   no:
+        //  create a query to search the Products for records with categoryid choice
+        var productquery = @"SELECT ProductID
+                FROM Products
+                WHERE CategoryID = @0";
+        var productinfo = db.Query(productquery, choice);
+        //       check if there are no products for the category
+        if (productinfo.Count() == 0)
+        {
+            //          yes:  message to user
+            <p style="color:darkslateblue">There are no products for your selected category.</p>
+        }
+        else
+        {
+            //           no: pass selected value to next page
+            //passing data via the Url is known as a Get method
+            //data is displayed as plain text in the Url
+            //the data argument is in a label=value pair
+            //data arguments follow the pagename and ?
+            //data arguments are separated by the & symbol
+            //syntax   pagename.cshtml?label=value[&label=value...]
+            //use the Response.Redirect to goto another page
+            Response.Redirect("WebGridDisplay.cshtml?cid=" + choice);
+        }
+    }
 }
 else
 {
@@ -31,7 +66,7 @@ else
         &nbsp;&nbsp;
         <select id="CategoryList" name="CategoryList">
             <option value="0">select ...</option>
-            @foreach(var item in catinfo)
+            @foreach (var item in catinfo)
             {
                 //loop through the collection of records in the catinfo
                 //create a line (option) for each record in the collection
@@ -45,6 +80,8 @@ else
         </select>
         &nbsp;&nbsp;
         <button type="submit" id="theButton" name="theButton" value="submit"
-                class="btn btn-primary">Fetch Products for Category ...</button>
+                class="btn btn-primary">
+            Fetch Products for Category ...
+        </button>
     </div>
 </form>

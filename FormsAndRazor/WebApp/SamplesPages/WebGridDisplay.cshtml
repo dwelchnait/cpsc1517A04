@@ -1,8 +1,43 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
     Page.Title = string.Format("Razor - {0}", "WebGrid Display");
+
+    //obtain the passed data value
+    //use Request.QueryString["parameterlabel"]  (Get method)
+    //data is returned as a string
+    var cid = Request.QueryString["cid"];
+
+
+    //good practice
+    //check that a value was actually passed
+    if (string.IsNullOrEmpty(cid))
+    {
+        Response.Redirect("MultiRecordquery.cshtml");
+    }
+
+    //get  product data
+    var db = Database.Open("NWDB");
+    var productquery = @"SELECT ProductID, ProductName, UnitPrice, UnitsInStock, Discontinued
+                        FROM Products
+                        WHERE CategoryID = @0
+                        ORDER BY ProductName";
+    var productinfo = db.Query(productquery, cid);
+
+    //get category name
+    //could the name have been passed with the id: yes
+
+    var catnamequery = @"SELECT CategoryName
+                         FROM Categories
+                         WHERE CategoryID = @0";
+    var catname = db.QueryValue(catnamequery, cid);
+
+    //setup WebGrid instance
+    //as you create the instance of the class WebGrid, supply the collection dataset
+    var gridinstance = new WebGrid(productinfo);
 }
 @section banner{
     <h1>WebGrid Display</h1>
 }
 
+<p style="font-size:x-large; color:green">Products for Category: @catname</p>
+@gridinstance.GetHtml()
