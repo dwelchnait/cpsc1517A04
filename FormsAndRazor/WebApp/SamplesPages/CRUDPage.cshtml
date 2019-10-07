@@ -4,8 +4,8 @@
 
     //is there any necessary global variables
     var productname = "";
-    var supplierid = "";
-    var categoryid = "";
+    var supplierid = "0";
+    var categoryid = "0";
     var quantityperunit = "";
     var unitprice = "";
     var unitsinstock = "";
@@ -15,14 +15,44 @@
     //obtain two lists: SupplierList and CategoryList
     var db = Database.Open("NWDB");
     var supplierquery = @"SELECT SupplierID, CompanyName
-  FROM Suppliers
-  Order by CompanyName";
+FROM Suppliers
+Order by CompanyName";
     var categoryquery = @"SELECT CategoryID, CategoryName
-  FROM Categories
-  Order by CategoryName";
+FROM Categories
+Order by CategoryName";
     var supplierlist = db.Query(supplierquery);
     var categorylist = db.Query(categoryquery);
 
+    //validation controls
+    //this is server side validation
+
+    Validation.Add("ProductName",
+         Validator.Required("Product name is required"),
+         Validator.StringLength(160, 1, "Product name is limited to 160 characters"));
+    //QuantityPerUnit is nullable, nullable string require 0 characters
+    Validation.Add("QuantityPerUnit",
+         Validator.StringLength(40, 0, "Quantity per unit is limited to 40 characters"));
+    Validation.Add("UnitPrice",
+        Validator.Range(0.00, double.MaxValue, "Unit price must be 0.00 or more"));
+    Validation.Add("UnitsInStock",
+        Validator.Integer("Units in stock needs to be a whole number"),
+        Validator.Range(0.00, 32767.0, "Units in stock must be 0 or more"));
+    Validation.Add("UnitsOnOrder",
+        Validator.Integer("Units on order needs to be a whole number"),
+        Validator.Range(0.00, 32767.0, "Units on order must be 0 or more"));
+    Validation.Add("ReorderLevel",
+        Validator.Integer("Reorder level needs to be a whole number"),
+        Validator.Range(0.00, 32767.0, "Reorder level must be 0 or more"));
+
+    //field a is the same as field b
+    //Validation.Add("Email",
+    //    Validator.EqualsTo("ConfirmEmail", "Email not confirmed."));
+
+    //pattern matching for your data ie PostalCode
+    //Validation.Add("PostalCode",
+    //    Validator.StringLength(6, 6, "Invalid postal code length"),
+    //    Validator.Regex(@"^[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]$",
+    //        "Postal code is invalid (sample T6T6T6)"));
 }
 
 @section banner{
@@ -47,8 +77,8 @@
     if (thebutton.Equals("Clear"))
     {
         productname = "";
-        supplierid = "";
-        categoryid = "";
+        supplierid = "0";
+        categoryid = "0";
         quantityperunit = "";
         unitprice = "";
         unitsinstock = "";
@@ -59,42 +89,64 @@
     {
         //add button
         //validate data
+        //to ACTUALLY execute the server side validation you need to execute
+        //    Validation.IsValid()
+        //there is no NEED for an else to this test as the validation errors
+        //   will be displayed
+        if (Validation.IsValid())
+        {
+            //test for logical validation
+            //these are validation that can not be performed easly by Validators
 
-        //test validation
-        //bad
-        //good
-        try
-        {
-            //connect to database
-            //  done above
-            //create insert command
-            var inscommand = @"INSERT INTO Products (ProductName, SupplierID, CategoryID,
-                            QuantityPerUnit, UnitPrice, UnitsInStock,
-                            UnitsOnOrder, ReorderLevel, Discontinued)
-                    VALUES (@0, @1, @2, @3, @4, @5, @6, @7, 0)";
-            //execute the command
-            db.Execute(inscommand, productname,
-                        supplierid.Equals("0") ? null : supplierid,
-                        categoryid.Equals("0") ? null : categoryid,
-                        string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
-                        string.IsNullOrEmpty(unitprice) ? null : unitprice,
-                        string.IsNullOrEmpty(unitsinstock) ? null : unitsinstock,
-                        string.IsNullOrEmpty(unitsonorder) ? null : unitsonorder,
-                        string.IsNullOrEmpty(reorderlevel) ? null : reorderlevel);
-            <div class="col-12 text-center">
-                <p style="color:green">
-                    Produce has been added.
-                </p>
-            </div>
+            //assume that the category is a required field
+            var valid = true;
+            if (categoryid.Equals("0"))
+            {
+                //bad
+                valid = false;
+                <div class="col-12 text-center">
+                    <p style="color:mediumblue">Select a category.</p>
+                </div>
+            }
+            if (valid)
+            {
+                //good
+                try
+                {
+                    //connect to database
+                    //  done above
+                    //create insert command
+                    var inscommand = @"INSERT INTO Products (ProductName, SupplierID, CategoryID,
+                                        QuantityPerUnit, UnitPrice, UnitsInStock,
+                                        UnitsOnOrder, ReorderLevel, Discontinued)
+                                        VALUES (@0, @1, @2, @3, @4, @5, @6, @7, 0)";
+                    //execute the command
+                    db.Execute(inscommand, productname,
+                                supplierid.Equals("0") ? null : supplierid,
+                                categoryid.Equals("0") ? null : categoryid,
+                                string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
+                                string.IsNullOrEmpty(unitprice) ? null : unitprice,
+                                string.IsNullOrEmpty(unitsinstock) ? null : unitsinstock,
+                                string.IsNullOrEmpty(unitsonorder) ? null : unitsonorder,
+                                string.IsNullOrEmpty(reorderlevel) ? null : reorderlevel);
+                    <div class="col-12 text-center">
+                        <p style="color:green">
+                            Produce has been added.
+                        </p>
+                    </div>
+                }
+                catch (Exception ex)
+                {
+                    <div class="col-12 text-center">
+                        <p style="color:firebrick; font-size:large">
+                            Processing error: @ex.Message
+                        </p>
+                    </div>
+                }
+            }
+
         }
-        catch (Exception ex)
-        {
-            <div class="col-12 text-center">
-                <p style="color:firebrick; font-size:large">
-                    Processing error: @ex.Message
-                </p>
-            </div>
-        }
+
     }
 
 }
@@ -102,7 +154,11 @@ else
 {
 
 }
-
+@* displaying validation errors can be done in a group
+     using the Html.ValidationSummary()
+    the errors by default are listed in a bulleted list
+    All errors for a Validation are displayed*@
+@Html.ValidationSummary()
 <form id="theform" method="post">
     <div class="row">
         <div class="col-md-6 text-right">
@@ -121,6 +177,11 @@ else
 
             <input type="text" value="@productname"
                    id="ProductName" name="ProductName" />
+            @* OR
+                you could display an error beside the control
+                ONLY one of the errors of Validation will be shown
+                syntax is Html.ValidationMessage("controlname")*@
+            @Html.ValidationMessage("ProductName")
             <br />
             <select id="SupplierList" name="SupplierList">
                 <option value="0">select supplier...</option>
@@ -149,7 +210,14 @@ else
                 <option value="0">select category...</option>
                 @foreach (var item in categorylist)
                 {
-                    <option value="@item.CategoryID">@item.CategoryName</option>
+                    if (categoryid == item.CategoryID.ToString())
+                    {
+                        <option value="@item.CategoryID" selected>@item.CategoryName</option>
+                    }
+                    else
+                    {
+                        <option value="@item.CategoryID">@item.CategoryName</option>
+                    }
                 }
             </select>
             <br />
