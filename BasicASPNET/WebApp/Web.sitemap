@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description=" points to the root of your menu, we will not diplay">
+    <!-- each siteMapNode is an item on your menu
+         IF the siteMapNode is self closing; ther is no sub menu items-->
+    <siteMapNode url="~/Default.aspx" title="Home"  description="home page, web site default start page" />
+    <siteMapNode url="~/SamplePages/HelloWorld.aspx" title="Hello World"  description="" />
+    <!--dropdown menu
+        the start/end of a drop down menu uses SEPARATE open and closing tags for your siteMapNode
+        the open tag can have a Url that points to its own page
+        sub menu items within the open/close siteMapNode set, are self closing siteMapNodes-->
+    <siteMapNode url="" title="Samples" description=" root menu item for dropdown, starts the dropdown structure">
+      <!--all siteMapNodes within this set are sub menu items-->
+      <siteMapNode url="~/SamplePages/BasicControls.aspx" title="Basic Web Controls"
+                   description="submenu item, domestrate common basic web controls" />
+    </siteMapNode>
+    <siteMapNode url="~/Contact.aspx" title="Contact"  description="given" />
+    <siteMapNode url="~/About.aspx" title="About"  description="given" />
+  </siteMapNode>
+</siteMap>
