@@ -49,17 +49,52 @@
              Display="None" SetFocusOnError="true" ForeColor="#990000"
              ControlToValidate="PostalCode">
         </asp:RequiredFieldValidator>
+        <asp:RegularExpressionValidator ID="RegExPostalCode" runat="server" 
+            ErrorMessage="Invalid postal code format (T6Y7U0)"
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="PostalCode"
+             ValidationExpression="[a-zA-Z][]0-9][a-zA-Z][]0-9][a-zA-Z][]0-9]">
+        </asp:RegularExpressionValidator>
         <asp:RequiredFieldValidator ID="RequiredEmailAddress" runat="server" 
             ErrorMessage="Email is required."
              Display="None" SetFocusOnError="true" ForeColor="#990000"
              ControlToValidate="EmailAddress">
         </asp:RequiredFieldValidator>
+        <asp:RegularExpressionValidator ID="RegExEmailAddress" runat="server" 
+            ErrorMessage="Invalid email format"
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="PostalCode"
+             ValidationExpression="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$">
+        </asp:RegularExpressionValidator>
         <asp:RequiredFieldValidator ID="RequiredCheckAnswer" runat="server" 
             ErrorMessage="Answer to skill testing question is required."
              Display="None" SetFocusOnError="true" ForeColor="#990000"
              ControlToValidate="CheckAnswer">
         </asp:RequiredFieldValidator>
+<%--        <asp:CompareValidator ID="CompareCheckAnswer" runat="server" 
+            ErrorMessage="Check Answer: DataType check"
+            Display="None" SetFocusOnError="true" ForeColor="#990000"
+            ControlToValidate="CheckAnswer" Operator="DataTypeCheck" Type="Integer">--%>
+        <asp:CompareValidator ID="CompareCheckAnswer" runat="server" 
+            ErrorMessage="Check Answer: Constant Value check"
+            Display="None" SetFocusOnError="true" ForeColor="#990000"
+            ControlToValidate="CheckAnswer" Operator="Equal" ValueToCompare="15"
+            Type="Integer">
+        </asp:CompareValidator>
+<%--        <asp:CompareValidator ID="CompareCheckAnswer" runat="server" 
+            ErrorMessage="Check Answer: Against Another field check"
+            Display="None" SetFocusOnError="true" ForeColor="#990000"
+            ControlToValidate="CheckAnswer" Operator="NotEqual" ControlToCompare="StreetAddress2"
+            Type="Integer">
+        </asp:CompareValidator>--%>
+        <%-- using StreetAddress2 to demonstrate the Range Validation --%>
+        <asp:RangeValidator ID="RangeSampleOnStreetAddress2" runat="server" 
+            ErrorMessage="Range Sample values 0 - 100 (integer)."
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="StreetAddress2"
+             MinimumValue="0" MaximumValue="100" Type="Integer">
 
+        </asp:RangeValidator>
 
         <%-- Validation summary control is used to display the
             validation errors--%>
@@ -136,8 +171,8 @@
         <div class="col-md-6">   
             <div class="col-md-offset-2">
                 <p>
-                    <asp:Button ID="Submit" runat="server" Text="Submit" />&nbsp;&nbsp;
-                    <asp:Button ID="Clear" runat="server" Text="Clear" CausesValidation="true"  />
+                    <asp:Button ID="Submit" runat="server" Text="Submit" OnClick="Submit_Click" />&nbsp;&nbsp;
+                    <asp:Button ID="Clear" runat="server" Text="Clear" CausesValidation="true" OnClick="Clear_Click"  />
                 </p>
                 <asp:Label ID="Message" runat="server" ></asp:Label><br /><br />
 
