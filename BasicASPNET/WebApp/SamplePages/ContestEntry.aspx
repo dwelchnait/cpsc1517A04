@@ -1,20 +1,71 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ContestEntry.aspx.cs" Inherits="WebApp.SamplePages.ContestEntry" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" 
+    runat="server" >
     <div class="page-header">
         <h1>Contest Entry</h1>
     </div>
 
-    <div class="row col-md-12">
-        <div class="alert alert-info">
-            <blockquote style="font-style: italic">
-                This illustrates some simple controls to fill out an entry form for a contest. 
-                This form will use basic bootstrap formatting and illustrate Validation.
-            </blockquote>
-            <p>
-                Please fill out the following form to enter the contest. This contest is only available to residents in Western Canada.
-            </p>
-
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <blockquote style="font-style: italic">
+                    This illustrates some simple controls to fill out an entry form for a contest. 
+                    This form will use basic bootstrap formatting and illustrate Validation.
+                </blockquote>
+                <p>
+                    Please fill out the following form to enter the contest. This contest is only available to residents in Western Canada.
+                </p>
+            </div>
         </div>
+    </div>
+    <br />
+    <div class="row">
+        <%--  Validation Controls
+            they could be place besdie the appropriate input field
+            HOWEVER this would cause Bootwrap to fail
+            THEREFORE the controls will be group before the form (anywhere else)--%>
+        <asp:RequiredFieldValidator ID="RequiredFirstName" runat="server" 
+            ErrorMessage="First Name is required."
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="FirstName">
+        </asp:RequiredFieldValidator>
+        <asp:RequiredFieldValidator ID="RequiredLastName" runat="server" 
+            ErrorMessage="Last Name is required."
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="LastName">
+        </asp:RequiredFieldValidator>
+        <asp:RequiredFieldValidator ID="RequiredStreetAddress1" runat="server" 
+            ErrorMessage="Street address 1 is required."
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="StreetAddress1">
+        </asp:RequiredFieldValidator>
+        <asp:RequiredFieldValidator ID="RequiredCity" runat="server" 
+            ErrorMessage="City is required."
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="City">
+        </asp:RequiredFieldValidator>
+        <asp:RequiredFieldValidator ID="RequiredPostalCode" runat="server" 
+            ErrorMessage="PostalCode is required."
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="PostalCode">
+        </asp:RequiredFieldValidator>
+        <asp:RequiredFieldValidator ID="RequiredEmailAddress" runat="server" 
+            ErrorMessage="Email is required."
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="EmailAddress">
+        </asp:RequiredFieldValidator>
+        <asp:RequiredFieldValidator ID="RequiredCheckAnswer" runat="server" 
+            ErrorMessage="Answer to skill testing question is required."
+             Display="None" SetFocusOnError="true" ForeColor="#990000"
+             ControlToValidate="CheckAnswer">
+        </asp:RequiredFieldValidator>
+
+
+        <%-- Validation summary control is used to display the
+            validation errors--%>
+        <asp:ValidationSummary ID="ValidationSummary1" runat="server" 
+                 CssClass="alert alert-danger"/>
+       
     </div>
   
     <div class="row">
@@ -88,8 +139,9 @@
                     <asp:Button ID="Submit" runat="server" Text="Submit" />&nbsp;&nbsp;
                     <asp:Button ID="Clear" runat="server" Text="Clear" CausesValidation="true"  />
                 </p>
-                <asp:Label ID="Message" runat="server" ></asp:Label><br />
-            
+                <asp:Label ID="Message" runat="server" ></asp:Label><br /><br />
+
+                <asp:GridView ID="EntryList" runat="server"></asp:GridView>
             </div>
         </div>
     </div>
