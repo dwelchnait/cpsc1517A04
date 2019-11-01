@@ -26,17 +26,17 @@
             THEREFORE the controls will be group before the form (anywhere else)--%>
         <asp:RequiredFieldValidator ID="RequiredFirstName" runat="server" 
             ErrorMessage="First Name is required."
-             Display="None" SetFocusOnError="true" ForeColor="#990000"
+            Display="None"  SetFocusOnError="true" ForeColor="#990000"
              ControlToValidate="FirstName">
         </asp:RequiredFieldValidator>
         <asp:RequiredFieldValidator ID="RequiredLastName" runat="server" 
             ErrorMessage="Last Name is required."
-             Display="None" SetFocusOnError="true" ForeColor="#990000"
+            Display="None"  SetFocusOnError="true" ForeColor="#990000"
              ControlToValidate="LastName">
         </asp:RequiredFieldValidator>
         <asp:RequiredFieldValidator ID="RequiredStreetAddress1" runat="server" 
             ErrorMessage="Street address 1 is required."
-             Display="None" SetFocusOnError="true" ForeColor="#990000"
+            Display="None"  SetFocusOnError="true" ForeColor="#990000"
              ControlToValidate="StreetAddress1">
         </asp:RequiredFieldValidator>
         <asp:RequiredFieldValidator ID="RequiredCity" runat="server" 
@@ -53,7 +53,7 @@
             ErrorMessage="Invalid postal code format (T6Y7U0)"
              Display="None" SetFocusOnError="true" ForeColor="#990000"
              ControlToValidate="PostalCode"
-             ValidationExpression="[a-zA-Z][]0-9][a-zA-Z][]0-9][a-zA-Z][]0-9]">
+             ValidationExpression="[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]">
         </asp:RegularExpressionValidator>
         <asp:RequiredFieldValidator ID="RequiredEmailAddress" runat="server" 
             ErrorMessage="Email is required."
@@ -63,7 +63,7 @@
         <asp:RegularExpressionValidator ID="RegExEmailAddress" runat="server" 
             ErrorMessage="Invalid email format"
              Display="None" SetFocusOnError="true" ForeColor="#990000"
-             ControlToValidate="PostalCode"
+             ControlToValidate="EmailAddress"
              ValidationExpression="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$">
         </asp:RegularExpressionValidator>
         <asp:RequiredFieldValidator ID="RequiredCheckAnswer" runat="server" 
