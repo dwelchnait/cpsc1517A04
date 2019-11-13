@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindSystem.Data
 {
-    [Table("Regions")]
+    [Table("Region")]
     public class Region
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
