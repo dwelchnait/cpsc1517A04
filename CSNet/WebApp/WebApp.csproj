@@ -134,6 +134,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="SamplePages\FilterSearches.aspx" />
+    <Content Include="SamplePages\ReceivingPage.aspx" />
     <Content Include="SamplePages\SimpleQuery.aspx" />
     <Content Include="SamplePages\SqlQuery.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -205,6 +206,13 @@
     </Compile>
     <Compile Include="SamplePages\FilterSearches.aspx.designer.cs">
       <DependentUpon>FilterSearches.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ReceivingPage.aspx.cs">
+      <DependentUpon>ReceivingPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SamplePages\ReceivingPage.aspx.designer.cs">
+      <DependentUpon>ReceivingPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\SimpleQuery.aspx.cs">
       <DependentUpon>SimpleQuery.aspx</DependentUpon>
