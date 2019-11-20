@@ -118,7 +118,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\myTabsSheet.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
@@ -133,8 +132,11 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+<<<<<<< HEAD
     <Content Include="SamplePages\FilterSearches.aspx" />
     <Content Include="SamplePages\ReceivingPage.aspx" />
+=======
+>>>>>>> parent of e8a95a6... install filter search example
     <Content Include="SamplePages\SimpleQuery.aspx" />
     <Content Include="SamplePages\SqlQuery.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -200,6 +202,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <Compile Include="SamplePages\FilterSearches.aspx.cs">
       <DependentUpon>FilterSearches.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -214,6 +217,8 @@
     <Compile Include="SamplePages\ReceivingPage.aspx.designer.cs">
       <DependentUpon>ReceivingPage.aspx</DependentUpon>
     </Compile>
+=======
+>>>>>>> parent of e8a95a6... install filter search example
     <Compile Include="SamplePages\SimpleQuery.aspx.cs">
       <DependentUpon>SimpleQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

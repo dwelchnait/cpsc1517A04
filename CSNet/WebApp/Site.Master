@@ -55,7 +55,6 @@
                         <li><a runat="server" href="~/Contact">Contact</a></li>
                         <li><a runat="server" href="~/SamplePages/SimpleQuery">Simply query</a></li>
                         <li><a runat="server" href="~/SamplePages/SqlQuery">SqlQuery</a></li>
-                        <li><a runat="server" href="~/SamplePages/FilterSearches">Filter Search</a></li>
                     </ul>
                 </div>
             </div>
