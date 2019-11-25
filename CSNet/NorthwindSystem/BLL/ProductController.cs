@@ -71,6 +71,10 @@ namespace NorthwindSystem.BLL
 
                 //Step Two
                 //commit your staged record to the database
+                //IF there is ANY entity validation annotation, it will
+                //    be executed during the .SaveChanges() processing
+                //If any entity validation error is discovered, the message(s)
+                //    are returned AND the commit is ABORTED
                 //if the committing command is successful, then the new
                 //    identity value WILL exist in your data instance
                 //if the committing command is NOT successful, the

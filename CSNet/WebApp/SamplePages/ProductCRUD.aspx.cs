@@ -1,12 +1,18 @@
-﻿using NorthwindSystem.BLL;
-using NorthwindSystem.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+#region Additional Namespaces
+using NorthwindSystem.BLL;
+using NorthwindSystem.Data;
+using System.Data.Entity.Validation;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Core;
+
+#endregion
 namespace WebApp.NorthwindPages
 {
     public partial class ProductCRUD : System.Web.UI.Page
@@ -318,7 +324,31 @@ namespace WebApp.NorthwindPages
                         BindProductList(); //by default, list will be at index 0
                         ProductList.SelectedValue = ProductID.Text;
                     }
-                    catch(Exception ex)
+                    catch (DbUpdateException ex)
+                    {
+                        UpdateException updateException = (UpdateException)ex.InnerException;
+                        if (updateException.InnerException != null)
+                        {
+                            errormsgs.Add(updateException.InnerException.Message.ToString());
+                        }
+                        else
+                        {
+                            errormsgs.Add(updateException.Message);
+                        }
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                        {
+                            foreach (var validationError in entityValidationErrors.ValidationErrors)
+                            {
+                                errormsgs.Add(validationError.ErrorMessage);
+                            }
+                        }
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
+                    }
+                    catch (Exception ex)
                     {
                         errormsgs.Add(GetInnerException(ex).ToString());
                         LoadMessageDisplay(errormsgs, "alert alert-danger");
