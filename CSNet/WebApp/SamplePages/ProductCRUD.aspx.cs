@@ -35,8 +35,8 @@ namespace WebApp.NorthwindPages
             if (!Page.IsPostBack)
             {
                 BindProductList();
-                BindCategoryList();
-                BindSupplierList();
+                //BindCategoryList();
+                //BindSupplierList();
             }
 
         }
@@ -66,50 +66,50 @@ namespace WebApp.NorthwindPages
             Message.DataBind();
         }
         #region Loading and Binding of DDLs
-        protected void BindCategoryList()
-        {
-            //standard lookup
-            try
-            {
-                CategoryController sysmgr = new CategoryController();
-                List<Category> info = null;
-                info = sysmgr.Categories_List();
-                info.Sort((x, y) => x.CategoryName.CompareTo(y.CategoryName));
-                CategoryList.DataSource = info;
-                CategoryList.DataTextField = nameof(Category.CategoryName);
-                CategoryList.DataValueField = nameof(Category.CategoryID);
-                CategoryList.DataBind();
-                CategoryList.Items.Insert(0, "select...");
+        //protected void BindCategoryList()
+        //{
+        //    //standard lookup
+        //    try
+        //    {
+        //        CategoryController sysmgr = new CategoryController();
+        //        List<Category> info = null;
+        //        info = sysmgr.Categories_List();
+        //        info.Sort((x, y) => x.CategoryName.CompareTo(y.CategoryName));
+        //        CategoryList.DataSource = info;
+        //        CategoryList.DataTextField = nameof(Category.CategoryName);
+        //        CategoryList.DataValueField = nameof(Category.CategoryID);
+        //        CategoryList.DataBind();
+        //        CategoryList.Items.Insert(0, "select...");
 
-            }
-            catch (Exception ex)
-            {
-                errormsgs.Add(GetInnerException(ex).ToString());
-                LoadMessageDisplay(errormsgs, "alert alert-danger");
-            }
-        }
-        protected void BindSupplierList()
-        {
-            //standard lookup
-            try
-            {
-                SupplierController sysmgr = new SupplierController();
-                List<Supplier> info = null;
-                info = sysmgr.Supplier_List();
-                info.Sort((x, y) => x.ContactName.CompareTo(y.ContactName));
-                SupplierList.DataSource = info;
-                SupplierList.DataTextField = nameof(Supplier.ContactName);
-                SupplierList.DataValueField = nameof(Supplier.SupplierID);
-                SupplierList.DataBind();
-                SupplierList.Items.Insert(0, "select...");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errormsgs.Add(GetInnerException(ex).ToString());
+        //        LoadMessageDisplay(errormsgs, "alert alert-danger");
+        //    }
+        //}
+        //protected void BindSupplierList()
+        //{
+        //    //standard lookup
+        //    try
+        //    {
+        //        SupplierController sysmgr = new SupplierController();
+        //        List<Supplier> info = null;
+        //        info = sysmgr.Supplier_List();
+        //        info.Sort((x, y) => x.ContactName.CompareTo(y.ContactName));
+        //        SupplierList.DataSource = info;
+        //        SupplierList.DataTextField = nameof(Supplier.ContactName);
+        //        SupplierList.DataValueField = nameof(Supplier.SupplierID);
+        //        SupplierList.DataBind();
+        //        SupplierList.Items.Insert(0, "select...");
 
-            }
-            catch (Exception ex)
-            {
-                errormsgs.Add(GetInnerException(ex).ToString());
-                LoadMessageDisplay(errormsgs, "alert alert-danger");
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errormsgs.Add(GetInnerException(ex).ToString());
+        //        LoadMessageDisplay(errormsgs, "alert alert-danger");
+        //    }
+        //}
         protected void BindProductList()
         {
             //standard lookup
@@ -259,14 +259,9 @@ namespace WebApp.NorthwindPages
                         //   since ProductID is an identity field it does NOT
                         //   need to be loaded into the new instance
                         item.ProductName = ProductName.Text.Trim();
-                        if (CategoryList.SelectedIndex == 0)
-                        {
-                            item.CategoryID = null;
-                        }
-                        else
-                        {
-                            item.CategoryID = int.Parse(CategoryList.SelectedValue);
-                        }
+                        item.CategoryID = 
+                            CategoryList.SelectedIndex == 0 ? (int?)null : int.Parse(CategoryList.SelectedValue);
+                     
                         if (SupplierList.SelectedIndex == 0)
                         {
                             item.SupplierID = null;
@@ -277,14 +272,11 @@ namespace WebApp.NorthwindPages
                         }
                         item.QuantityPerUnit =
                             string.IsNullOrEmpty(QuantityPerUnit.Text) ? null : QuantityPerUnit.Text;
-                        if(string.IsNullOrEmpty(UnitPrice.Text))
-                        {
-                            item.UnitPrice = null;
-                        }
-                        else
-                        {
-                            item.UnitPrice = decimal.Parse(UnitPrice.Text);
-                        }
+
+
+                        item.UnitPrice = 
+                                string.IsNullOrEmpty(UnitPrice.Text) ? (decimal?)null : decimal.Parse(UnitPrice.Text);
+
                         if (string.IsNullOrEmpty(UnitsInStock.Text))
                         {
                             item.UnitsInStock = null;
